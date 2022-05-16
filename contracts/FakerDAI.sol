@@ -3,7 +3,7 @@ import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
-abstract contract FakerDAI is Ownable, ERC20 {
+abstract contract AbstractFakerDAI is Ownable, ERC20 {
   
   /**
    Owner can enable or disable a certain kind of token can be used for lending
