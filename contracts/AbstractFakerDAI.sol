@@ -37,5 +37,29 @@ abstract contract AbstractFakerDAI is Ownable, ERC20 {
     whoever find out and execute the liquidate function will receive a liquidationPenalty
    */
   function liquidate(uint256 depositId) virtual external;
+}
 
+contract FakerDAI is AbstractFakerDAI {
+  mapping (address => bool) reservedTokens;
+
+  constructor() ERC20("Faker DAI", "FDAI"){
+  }
+
+  function _toggleTreasuryToken(address erc20TokenAddress, bool enable) override internal {
+    if(enable == true) {
+      reservedTokens[erc20TokenAddress] = true;
+    }
+    else {
+      reservedTokens[erc20TokenAddress] = false;
+      // what would happen to the fund?
+    }
+  }
+
+  function deposit(address erc20TokenAddress, uint256 amount, uint256 collateralPercentage) override external returns (uint256 depositId) {
+
+  }
+
+  function burn(uint256 depositId) override external {}
+
+  function liquidate(uint256 depositId) override external {}
 }
