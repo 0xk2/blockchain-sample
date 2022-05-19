@@ -3,27 +3,19 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
-abstract contract AUSDT is IERC20 {
-  uint basicPointsRate;
-  uint maximumFee;
-  bool deprecated;
-  address upgradedAddress;
+abstract contract AStablecoin is IERC20, AccessControlEnumerable {
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
-  // Called when new token are issued
-  event Issue(uint amount);
+    function pause() public virtual;
 
-  // Called when tokens are redeemed
-  event Redeem(uint amount);
+    function unpause() public virtual;
 
-  // Called when contract is deprecated
-  event Deprecate(address newAddress);
+    function burn(uint256 amount) public virtual;
 
-  // Called if contract ever adds fees
-  event Params(uint feeBasisPoints, uint maxFee);
+    function burnFrom(address account, uint256 amount) public virtual;
 
-  function setParams(uint newBasisPoints, uint newMaxFee) external virtual;
-
-  // Called to mark this contract is deprecated and set `upgradedAddress`
-  function deprecate(address _upgradedAddress) external virtual;
+    function mint(address to, uint amount) public virtual;
 }
